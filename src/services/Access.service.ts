@@ -5,6 +5,7 @@ import shopModel, { IShop } from "~/model/shop.model";
 import CreateKey from "~/utils/randomKey";
 import AuthUtil from "~/auth/authUtil";
 import KeyTokenService from "./KeyToken.service";
+import payloadJWT from "~/utils/PayLoadJwt";
 
 interface IArgument {
     name?: string;
@@ -23,14 +24,34 @@ interface IResultData<T> {
 }
 
 class AccessService {
-    public static async login({ email, password }: IArgument): Promise<IShop> {
+    // Login
+    public static async login({ email, password }: IArgument): Promise<IResultData<string>> {
         const findShop = await shopModel.findOne({ email });
         if (!findShop) throw new ErrorResponse(500, "Pls Register was Login");
 
         const comparePassword = await bcrypt.compare(password, findShop.password);
         if (!comparePassword) throw new ErrorResponse(500, "Password correct !!!");
 
-        return findShop;
+        const privateKey: string = CreateKey.privateKey;
+        const publicKey: string = CreateKey.publicKey;
+
+        const tokens: IToken<string> = await AuthUtil.createTokenPair({
+            payload: payloadJWT(findShop),
+            privateKey,
+            publicKey,
+        });
+
+        await KeyTokenService.createKeyToken({
+            userId: findShop._id,
+            privateKey,
+            publicKey,
+            refreshToken: tokens.refreshToken,
+        });
+
+        return {
+            data: findShop,
+            tokens,
+        };
     }
 
     // Register
@@ -52,11 +73,10 @@ class AccessService {
             const privateKey: string = CreateKey.privateKey;
             const publicKey: string = CreateKey.publicKey;
 
+            const { _id, email } = newShop;
+
             const tokens: IToken<string> = await AuthUtil.createTokenPair({
-                payload: {
-                    _id: newShop._id,
-                    email: newShop.email,
-                },
+                payload: { _id, email },
                 privateKey,
                 publicKey,
             });

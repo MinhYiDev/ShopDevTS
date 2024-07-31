@@ -13,8 +13,8 @@ abstract class AuthUtil {
             jwt.sign(payload, publicKey, { expiresIn: "7d" }),
         ]);
 
-        jwt.verify(accessToken, privateKey, (err, decode) => {
-            if (err) console.log(err);
+        jwt.verify(accessToken, publicKey, (err, decode) => {
+            if (err) console.log("Loi JWT NE: ", err);
             console.log(decode);
         });
 
