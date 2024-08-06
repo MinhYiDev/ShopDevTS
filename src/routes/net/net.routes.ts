@@ -34,10 +34,12 @@ router.post("/net", async (req: CustomRequest, res: Response): Promise<Response<
 });
 
 router.get("/net", async (req, res): Promise<Response<IData>> => {
-    const result = await netModel.findOne({ netId: 1 }).lean();
-
+    const result = await netModel.findOne({ netId: 1 }).lean().exec();
+    console.log("🚀 ~ router.get ~ result:", result);
     const titleTime = result?.updateTime;
+    console.log("🚀 ~ router.get ~ titleTime:", titleTime);
     const content = result?.content;
+    console.log("🚀 ~ router.get ~ content:", content);
 
     return res.status(200).send(`
         <style>
