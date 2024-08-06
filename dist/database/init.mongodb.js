@@ -8,7 +8,7 @@ const process_1 = __importDefault(require("process"));
 require("dotenv/config");
 class Database {
     stringConnect = process_1.default.env.STRING_CONNECT ||
-        "mongodb+srv://phamhongsang12x10:XY1pow8PztRkhMVc@cluster0.loq8seh.mongodb.net/";
+        "mongodb+srv://phamhongsang12x10:XY1pow8PztRkhMVc@cluster0.loq8seh.mongodb.net/ShopTypeDev";
     static instance;
     constructor() {
         this.connect();

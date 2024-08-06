@@ -20,9 +20,12 @@ router.post("/net", async (req, res) => {
     return res.status(200).json(result);
 });
 router.get("/net", async (req, res) => {
-    const result = await net_model_1.default.findOne({ netId: 1 }).lean();
+    const result = await net_model_1.default.findOne({ netId: 1 }).lean().exec();
+    console.log("🚀 ~ router.get ~ result:", result);
     const titleTime = result?.updateTime;
+    console.log("🚀 ~ router.get ~ titleTime:", titleTime);
     const content = result?.content;
+    console.log("🚀 ~ router.get ~ content:", content);
     return res.status(200).send(`
         <style>
             h4 {
