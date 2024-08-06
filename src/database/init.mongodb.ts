@@ -3,7 +3,9 @@ import process from "process";
 import "dotenv/config";
 
 class Database {
-    private stringConnect: string = process.env.STRING_CONNECT as string;
+    private stringConnect: string =
+        (process.env.STRING_CONNECT as string) ||
+        "mongodb+srv://phamhongsang12x10:XY1pow8PztRkhMVc@cluster0.loq8seh.mongodb.net/";
 
     public static instance: Database;
 

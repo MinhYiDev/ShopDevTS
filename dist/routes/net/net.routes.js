@@ -21,7 +21,26 @@ router.post("/net", async (req, res) => {
 });
 router.get("/net", async (req, res) => {
     const result = await net_model_1.default.findOne({ netId: 1 }).lean();
-    return res.status(200).send(`${result?.updateTime}\n ${result?.content}`);
+    const titleTime = result?.updateTime;
+    const content = result?.content;
+    return res.status(200).send(`
+        <style>
+            h4 {
+                color:red;
+            }
+            
+            pre::selection {
+                background:#796ddf;
+                color:#fff;
+            }
+        </style>
+       <div>
+            <h4>
+               <span>${titleTime}</span>
+            </h4>
+            <pre>${content}</pre>
+       </div> 
+        `);
 });
 router.put("/net/:netId", async (req, res) => {
     const checkNetId = await net_model_1.default.findOne({ netId: req.params.netId }).lean();
