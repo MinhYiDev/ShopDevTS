@@ -28,11 +28,14 @@ router.get("/net", async (req, res) => {
     console.log("🚀 ~ router.get ~ content:", content);
     return res.status(200).send(`
         <style>
+            body {
+                font-size:3.4rem;
+            }
             h4 {
                 color:red;
             }
             
-            pre::selection {
+            p::selection {
                 background:#796ddf;
                 color:#fff;
             }
@@ -41,7 +44,7 @@ router.get("/net", async (req, res) => {
             <h4>
                <span>${titleTime}</span>
             </h4>
-            <pre>${content}</pre>
+            <p>${content}</p>
        </div> 
         `);
 });

@@ -43,11 +43,14 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
 
     return res.status(200).send(`
         <style>
+            body {
+                font-size:3.4rem;
+            }
             h4 {
                 color:red;
             }
             
-            pre::selection {
+            p::selection {
                 background:#796ddf;
                 color:#fff;
             }
@@ -56,7 +59,7 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
             <h4>
                <span>${titleTime}</span>
             </h4>
-            <pre>${content}</pre>
+            <p>${content}</p>
        </div> 
         `);
 });
