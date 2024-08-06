@@ -15,7 +15,9 @@ class Database {
 
     private async connect() {
         try {
-            await mongoose.connect(this.stringConnect);
+            await mongoose.connect(
+                "mongodb+srv://phamhongsang12x10:XY1pow8PztRkhMVc@cluster0.loq8seh.mongodb.net/ShopTypeDev",
+            );
             console.log("SUCCESS DATABASE");
         } catch (error) {
             console.log("ERROR DATABASE");
