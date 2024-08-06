@@ -29,12 +29,23 @@ router.get("/net", async (req, res) => {
     return res.status(200).send(`
         <style>
             body {
-                font-size:3.4rem;
+                font-size:2rem;
+            }
+            div {
+                display:flex;
+                flex-direction:column;
+                flex-wrap:wrap;
+                width:min(1170px,100%);
             }
             h4 {
                 color:red;
             }
             
+            p {
+                padding:20px;
+                background:rgb(208 199 199 / 50%);
+            }
+
             p::selection {
                 background:#796ddf;
                 color:#fff;
