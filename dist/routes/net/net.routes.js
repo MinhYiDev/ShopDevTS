@@ -52,8 +52,13 @@ router.get("/net", async (req, res) => {
             }
         </style>
        <div>
+
             <h4>
-               <span>${titleTime}</span>
+               <span>Cập Nhật Lúc:😄${titleTime}</span> 
+               <span>
+                <script>${new Date().getTime}</script>
+               </span>
+               <div>by P_SANG😊</div>
             </h4>
             <p>${content}</p>
        </div> 
