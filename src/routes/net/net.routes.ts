@@ -45,6 +45,9 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
         <style>
             body {
                 font-size:2rem;
+                width:1170px;
+                max-width:calc(100% - 48px);
+                margin:0 auto;
             }
             div {
                 display:flex;
@@ -59,6 +62,13 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
             p {
                 padding:20px;
                 background:rgb(208 199 199 / 50%);
+                width: 100%;
+                word-wrap: break-word;
+                margin: 0 auto;
+                background: #eeeded;
+                border-radius: 30px;
+                height: 500px;
+                overflow: scroll;
             }
 
             p::selection {
