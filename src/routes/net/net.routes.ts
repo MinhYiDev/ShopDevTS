@@ -81,8 +81,12 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
                 color:#fff;
             }
         </style>
-       <div>
-
+        <html>
+        <head>
+        <title>❤️❤️❤️</title>
+        </head>
+        <body>
+        <div>
             <h4>
                <span>Cập Nhật Lúc:😄${timeTitle}</span>
                <span>
@@ -97,10 +101,9 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
                     })
                     .join(" ")}
             </div>
-
-            
-           
        </div>
+        </body>
+        </html>
         `);
 });
 
