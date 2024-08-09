@@ -20,12 +20,8 @@ router.post("/net", async (req, res) => {
     return res.status(200).json(result);
 });
 router.get("/net", async (req, res) => {
-    const result = await net_model_1.default.findOne({ netId: 1 }).lean().exec();
-    console.log("🚀 ~ router.get ~ result:", result);
-    const titleTime = result?.updateTime;
-    console.log("🚀 ~ router.get ~ titleTime:", titleTime);
-    const content = result?.content;
-    console.log("🚀 ~ router.get ~ content:", content);
+    const result = await net_model_1.default.find({}).lean().exec();
+    const timeTitle = result[0].updateTime;
     return res.status(200).send(`
         <style>
             body {
@@ -43,17 +39,17 @@ router.get("/net", async (req, res) => {
             h4 {
                 color:red;
             }
-            
+
             p {
-                padding:20px;
-                background:rgb(208 199 199 / 50%);
                 width: 100%;
                 word-wrap: break-word;
-                margin: 0 auto;
-                background: #eeeded;
-                border-radius: 30px;
-                height: 500px;
-                overflow: scroll;
+                margin: 0 auto 10px;
+                // background: #eeeded;
+            }
+
+
+            .box_p+ {
+                width:100%;
             }
 
             p::selection {
@@ -64,14 +60,23 @@ router.get("/net", async (req, res) => {
        <div>
 
             <h4>
-               <span>Cập Nhật Lúc:😄${titleTime}</span> 
+               <span>Cập Nhật Lúc:😄${timeTitle}</span>
                <span>
-                <script>${new Date().getTime}</script>
                </span>
                <div>by P_SANG😊</div>
             </h4>
-            <p>${content}</p>
-       </div> 
+            
+            <div class="box_p+">
+                ${result
+        .map((item) => {
+        return `<p>${item.content}</p>`;
+    })
+        .join(" ")}
+            </div>
+
+            
+           
+       </div>
         `);
 });
 router.put("/net/:netId", async (req, res) => {
