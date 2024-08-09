@@ -17,6 +17,14 @@ interface CustomRequest extends Request {
 }
 
 router.post("/net", async (req: CustomRequest, res: Response): Promise<Response<INet>> => {
+    const netId = await netModel.findOne({ netId: req.body.netId }).lean().exec();
+
+    if (netId) {
+        return res.status(500).json({
+            msg: "Trung Id",
+        });
+    }
+
     const data: IData = {
         netId: req.body.netId,
         content: req.body.content,
@@ -97,17 +105,12 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
 });
 
 router.put("/net/:netId", async (req: CustomRequest, res): Promise<Response<IData>> => {
-    const checkNetId = await netModel.findOne({ netId: req.params.netId }).lean();
-    if (!checkNetId) {
-        res.status(500).json({
-            msg: "netId",
-        });
-    }
-
     const filter = { netId: req.params.netId };
+
     const update = {
         content: req.body.content,
     };
+
     const options = {
         new: true,
         upsert: true,
@@ -118,4 +121,17 @@ router.put("/net/:netId", async (req: CustomRequest, res): Promise<Response<IDat
     return res.status(200).json(result);
 });
 
+router.delete("/net/:netId", async (req, res) => {
+    const del = await netModel.findOneAndDelete({ netId: req.params.netId }).lean();
+
+    if (del) {
+        return res.status(200).json({
+            msg: "Delete Sucess " + req.params.netId,
+        });
+    } else {
+        return res.status(400).json({
+            msg: "Delete Error " + req.params.netId,
+        });
+    }
+});
 export default router;
