@@ -1,18 +1,24 @@
+import moment from "moment-timezone";
 import { Schema, model } from "mongoose";
-import { createdTime, updateTime } from "~/utils/time";
+
+const tz = moment.tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY HH:mm:ss");
 
 export interface INet {
     content: string;
     netId: number;
-    createdTime?: string;
-    updateTime?: string;
+    createdAt?: Date;
+    updatedAt?: Date | string | number;
 }
 
-const netSchema = new Schema<INet>({
-    netId: { type: Number, unique: true },
-    content: { type: String, required: true },
-    createdTime,
-    updateTime,
-});
+const netSchema = new Schema<INet>(
+    {
+        netId: { type: Number, unique: true },
+        content: { type: String, required: true },
+    },
+    {
+        timestamps: true,
+        versionKey: false,
+    },
+);
 
 export default model<INet>("NetModel", netSchema);

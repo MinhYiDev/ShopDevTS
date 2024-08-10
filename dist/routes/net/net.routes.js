@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const router = (0, express_1.default)();
 const net_model_1 = __importDefault(require("../../model/net/net.model"));
 router.post("/net", async (req, res) => {
@@ -27,7 +28,10 @@ router.post("/net", async (req, res) => {
 });
 router.get("/net", async (req, res) => {
     const result = await net_model_1.default.find({}).lean().exec();
-    const timeTitle = result[0].updateTime;
+    if (!result) {
+        return res.status(404).send("Not Found");
+    }
+    const timeTitle = (0, moment_timezone_1.default)(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
     return res.status(200).send(`
         <style>
             body {

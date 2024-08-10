@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import moment from "moment-timezone";
 const router = express();
 import netModel, { INet } from "~/model/net/net.model";
 
@@ -44,7 +45,11 @@ router.post("/net", async (req: CustomRequest, res: Response): Promise<Response<
 router.get("/net", async (req, res): Promise<Response<IData>> => {
     const result = await netModel.find({}).lean().exec();
 
-    const timeTitle = result[0].updateTime;
+    if (!result) {
+        return res.status(404).send("Not Found");
+    }
+
+    const timeTitle = moment(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
 
     return res.status(200).send(`
         <style>
