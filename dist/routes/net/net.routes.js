@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const router = express_1.default.Router();
 const moment_timezone_1 = __importDefault(require("moment-timezone"));
-const router = (0, express_1.default)();
 const net_model_1 = __importDefault(require("../../model/net/net.model"));
 router.post("/net", async (req, res) => {
     const netId = await net_model_1.default.findOne({ netId: req.body.netId }).lean().exec();
@@ -28,8 +28,11 @@ router.post("/net", async (req, res) => {
 });
 router.get("/net", async (req, res) => {
     const result = await net_model_1.default.find({}).lean().exec();
-    if (!result) {
-        return res.status(404).send("Not Found");
+    if (result.length === 0) {
+        return res.status(404).json({
+            code: 404,
+            msg: "Not Found",
+        });
     }
     const timeTitle = (0, moment_timezone_1.default)(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
     return res.status(200).send(`
@@ -67,9 +70,12 @@ router.get("/net", async (req, res) => {
                 color:#fff;
             }
         </style>
+        <!DOCTYPE html>
         <html>
         <head>
-        <title>❤️❤️❤️</title>
+            <title>❤️❤️❤️</title>
+            <link rel="icon" type="image/png" href="./favicon/favicon-32x32.png">
+        <link 
         </head>
         <body>
         <div>

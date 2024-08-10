@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
+const router = express.Router();
 import moment from "moment-timezone";
-const router = express();
 import netModel, { INet } from "~/model/net/net.model";
 
 interface IData {
@@ -45,8 +45,11 @@ router.post("/net", async (req: CustomRequest, res: Response): Promise<Response<
 router.get("/net", async (req, res): Promise<Response<IData>> => {
     const result = await netModel.find({}).lean().exec();
 
-    if (!result) {
-        return res.status(404).send("Not Found");
+    if (result.length === 0) {
+        return res.status(404).json({
+            code: 404,
+            msg: "Not Found",
+        });
     }
 
     const timeTitle = moment(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
@@ -86,9 +89,12 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
                 color:#fff;
             }
         </style>
+        <!DOCTYPE html>
         <html>
         <head>
-        <title>❤️❤️❤️</title>
+            <title>❤️❤️❤️</title>
+            <link rel="icon" type="image/png" href="./favicon/favicon-32x32.png">
+        <link 
         </head>
         <body>
         <div>
