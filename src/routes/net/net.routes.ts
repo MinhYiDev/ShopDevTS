@@ -52,7 +52,7 @@ router.get("/net", async (req: Request, res: Response): Promise<Response<IData>>
         });
     }
 
-    const timeTitle: string = moment(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
+    const timeTitle: string = moment(result[0].updatedAt).tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY HH:mm:ss");
 
     return res.status(200).send(`
         <style>

@@ -34,7 +34,7 @@ router.get("/net", async (req, res) => {
             msg: "Not Found",
         });
     }
-    const timeTitle = (0, moment_timezone_1.default)(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
+    const timeTitle = (0, moment_timezone_1.default)(result[0].updatedAt).tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY HH:mm:ss");
     return res.status(200).send(`
         <style>
             body {
