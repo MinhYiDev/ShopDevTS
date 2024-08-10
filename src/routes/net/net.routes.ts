@@ -42,7 +42,7 @@ router.post("/net", async (req: CustomRequest, res: Response): Promise<Response<
     return res.status(200).json(result);
 });
 
-router.get("/net", async (req, res): Promise<Response<IData>> => {
+router.get("/net", async (req: Request, res: Response): Promise<Response<IData>> => {
     const result = await netModel.find({}).lean().exec();
 
     if (result.length === 0) {
@@ -52,7 +52,7 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
         });
     }
 
-    const timeTitle = moment(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
+    const timeTitle: string = moment(result[0].updatedAt).format("DD/MM/YYYY HH:mm:ss");
 
     return res.status(200).send(`
         <style>
@@ -79,7 +79,6 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
                 // background: #eeeded;
             }
 
-
             .box_p+ {
                 width:100%;
             }
@@ -93,7 +92,6 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
         <html>
         <head>
             <title>❤️❤️❤️</title>
-            <link rel="icon" type="image/png" href="./favicon/favicon-32x32.png">
         <link 
         </head>
         <body>
@@ -118,7 +116,7 @@ router.get("/net", async (req, res): Promise<Response<IData>> => {
         `);
 });
 
-router.put("/net/:netId", async (req: CustomRequest, res): Promise<Response<IData>> => {
+router.put("/net/:netId", async (req: CustomRequest, res: Response): Promise<Response<IData>> => {
     const filter = { netId: req.params.netId };
 
     const update = {
@@ -135,7 +133,7 @@ router.put("/net/:netId", async (req: CustomRequest, res): Promise<Response<IDat
     return res.status(200).json(result);
 });
 
-router.delete("/net/:netId", async (req, res) => {
+router.delete("/net/:netId", async (req: Request, res: Response) => {
     const del = await netModel.findOneAndDelete({ netId: req.params.netId }).lean();
 
     if (del) {

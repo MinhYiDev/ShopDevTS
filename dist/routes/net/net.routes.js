@@ -60,7 +60,6 @@ router.get("/net", async (req, res) => {
                 // background: #eeeded;
             }
 
-
             .box_p+ {
                 width:100%;
             }
@@ -74,7 +73,6 @@ router.get("/net", async (req, res) => {
         <html>
         <head>
             <title>❤️❤️❤️</title>
-            <link rel="icon" type="image/png" href="./favicon/favicon-32x32.png">
         <link 
         </head>
         <body>
