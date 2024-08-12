@@ -9,7 +9,7 @@ app.use(helmet());
 
 function routes(app: Application) {
     app.use("/v1/api/shop", accessRouter);
-    app.use("/", netRouter);
+    app.use("/v1/api/net", netRouter);
 }
 
 export default routes;

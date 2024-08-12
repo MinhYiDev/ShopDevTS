@@ -5,8 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const net_model_1 = __importDefault(require("../../model/net/net.model"));
+router.get("/", async (req, res) => {
+    const findNet = (await net_model_1.default.find({}).lean());
+    if (!findNet) {
+        res.status(400).json({
+            err: 400,
+            msg: "Can't find Net",
+        });
+    }
+    return res.status(200).json({
+        code: 200,
+        msg: "SUCCESS DATA",
+        data: findNet,
+    });
+});
 router.post("/net", async (req, res) => {
     const netId = await net_model_1.default.findOne({ netId: req.body.netId }).lean().exec();
     if (netId) {
@@ -26,76 +39,72 @@ router.post("/net", async (req, res) => {
     }
     return res.status(200).json(result);
 });
-router.get("/net", async (req, res) => {
-    const result = await net_model_1.default.find({}).lean().exec();
-    if (result.length === 0) {
-        return res.status(404).json({
-            code: 404,
-            msg: "Not Found",
-        });
-    }
-    const timeTitle = (0, moment_timezone_1.default)(result[0].updatedAt).tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY HH:mm:ss");
-    return res.status(200).send(`
-        <style>
-            body {
-                font-size:2rem;
-                width:1170px;
-                max-width:calc(100% - 48px);
-                margin:0 auto;
-            }
-            div {
-                display:flex;
-                flex-direction:column;
-                flex-wrap:wrap;
-                width:min(1170px,100%);
-            }
-            h4 {
-                color:red;
-            }
-
-            p {
-                width: 100%;
-                word-wrap: break-word;
-                margin: 0 auto 10px;
-                // background: #eeeded;
-            }
-
-            .box_p+ {
-                width:100%;
-            }
-
-            p::selection {
-                background:#796ddf;
-                color:#fff;
-            }
-        </style>
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>❤️❤️❤️</title>
-        <link 
-        </head>
-        <body>
-        <div>
-            <h4>
-               <span>Cập Nhật Lúc:😄${timeTitle}</span>
-               <span>
-               </span>
-               <div>by P_SANG😊</div>
-            </h4>
-            
-            <div class="box_p+">
-                ${result
-        .map((item) => {
-        return `<p>${item.content}</p>`;
-    })
-        .join(" ")}
-            </div>
-       </div>
-        </body>
-        </html>
-        `);
-});
+// router.get("/net", async (req: Request, res: Response): Promise<Response<IData>> => {
+//     const result = await netModel.find({}).lean().exec();
+//     if (result.length === 0) {
+//         return res.status(404).json({
+//             code: 404,
+//             msg: "Not Found",
+//         });
+//     }
+//     const timeTitle: string = moment(result[0].updatedAt).tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY HH:mm:ss");
+//     return res.status(200).send(`
+//         <style>
+//             body {
+//                 font-size:2rem;
+//                 width:1170px;
+//                 max-width:calc(100% - 48px);
+//                 margin:0 auto;
+//             }
+//             div {
+//                 display:flex;
+//                 flex-direction:column;
+//                 flex-wrap:wrap;
+//                 width:min(1170px,100%);
+//             }
+//             h4 {
+//                 color:red;
+//             }
+//             p {
+//                 width: 100%;
+//                 word-wrap: break-word;
+//                 margin: 0 auto 10px;
+//                 // background: #eeeded;
+//             }
+//             .box_p+ {
+//                 width:100%;
+//             }
+//             p::selection {
+//                 background:#796ddf;
+//                 color:#fff;
+//             }
+//         </style>
+//         <!DOCTYPE html>
+//         <html>
+//         <head>
+//             <title>❤️❤️❤️</title>
+//         <link
+//         </head>
+//         <body>
+//         <div>
+//             <h4>
+//                <span>Cập Nhật Lúc:😄${timeTitle}</span>
+//                <span>
+//                </span>
+//                <div>by P_SANG😊</div>
+//             </h4>
+//             <div class="box_p+">
+//                 ${result
+//                     .map((item) => {
+//                         return `<p>${item.content}</p>`;
+//                     })
+//                     .join(" ")}
+//             </div>
+//        </div>
+//         </body>
+//         </html>
+//         `);
+// });
 router.put("/net/:netId", async (req, res) => {
     const filter = { netId: req.params.netId };
     const update = {
