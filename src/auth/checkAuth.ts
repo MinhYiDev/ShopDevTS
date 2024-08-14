@@ -18,7 +18,8 @@ abstract class CheckAuth {
     public static async ApiKey(req: RequestHEADER, res: Response, next: NextFunction) {
         const apiKey: string = req.headers[HEADERS.API_KEY] as string;
 
-        if (!apiKey) throw new ErrorResponse(403, `FORBIDDEN ${HEADERS.API_KEY}`);
+        // if (!apiKey) throw new ErrorResponse(403, `FORBIDDEN ${HEADERS.API_KEY}`);
+        if (!apiKey) throw new ErrorResponse(403, `FORBIDDEN`);
 
         const keyStore = (await apiKeyModel.findOne({ key: apiKey }).lean()) as IApiKey;
         if (!keyStore) throw new ErrorResponse(401, "FORBIDDEN API");

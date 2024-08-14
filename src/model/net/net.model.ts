@@ -4,10 +4,15 @@ import { Schema, model } from "mongoose";
 const tz = moment.tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY HH:mm:ss");
 
 export interface INet {
+    _id?: string;
     content: string;
     netId: number;
+    updateOne?: any;
     createdAt?: Date;
     updatedAt?: Date | string | number;
+    data?: {
+        updatedAt: string;
+    };
 }
 
 const netSchema = new Schema<INet>(

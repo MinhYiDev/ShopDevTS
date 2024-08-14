@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
+import CheckAuth from "~/auth/checkAuth";
 const router = express.Router();
 import netModel, { INet } from "~/model/net/net.model";
+import asyncHandller from "~/utils/asyncHandller";
 
 interface IData {
     netId: number;
@@ -16,10 +18,12 @@ interface CustomRequest extends Request {
     };
 }
 
-router.get("/", async (req, res): Promise<Response<INet>> => {
-    const findNet: INet = (await netModel.find({}).lean()) as INet;
+router.use(asyncHandller(CheckAuth.ApiKey));
 
-    if (!findNet) {
+router.get("/", async (req, res): Promise<Response<INet>> => {
+    const findNet = (await netModel.find({}).lean()) as INet[];
+
+    if (findNet.length === 0) {
         res.status(400).json({
             err: 400,
             msg: "Can't find Net",
@@ -88,4 +92,5 @@ router.delete("/net/:netId", async (req: Request, res: Response) => {
         });
     }
 });
+
 export default router;
