@@ -13,8 +13,9 @@ var HEADERS;
 class CheckAuth {
     static async ApiKey(req, res, next) {
         const apiKey = req.headers[HEADERS.API_KEY];
+        // if (!apiKey) throw new ErrorResponse(403, `FORBIDDEN ${HEADERS.API_KEY}`);
         if (!apiKey)
-            throw new errror_response_1.ErrorResponse(403, `FORBIDDEN ${HEADERS.API_KEY}`);
+            throw new errror_response_1.ErrorResponse(403, `FORBIDDEN`);
         const keyStore = (await apiKey_model_1.default.findOne({ key: apiKey }).lean());
         if (!keyStore)
             throw new errror_response_1.ErrorResponse(401, "FORBIDDEN API");

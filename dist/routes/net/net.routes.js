@@ -4,11 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const checkAuth_1 = __importDefault(require("../../auth/checkAuth"));
 const router = express_1.default.Router();
 const net_model_1 = __importDefault(require("../../model/net/net.model"));
+const asyncHandller_1 = __importDefault(require("../../utils/asyncHandller"));
+router.use((0, asyncHandller_1.default)(checkAuth_1.default.ApiKey));
 router.get("/", async (req, res) => {
     const findNet = (await net_model_1.default.find({}).lean());
-    if (!findNet) {
+    if (findNet.length === 0) {
         res.status(400).json({
             err: 400,
             msg: "Can't find Net",
