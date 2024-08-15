@@ -1,4 +1,7 @@
+import cors from "cors";
 import express, { Request, Response } from "express";
+import helmet from "helmet";
+const app = express();
 import CheckAuth from "~/auth/checkAuth";
 const router = express.Router();
 import netModel, { INet } from "~/model/net/net.model";
@@ -19,6 +22,10 @@ interface CustomRequest extends Request {
 }
 
 router.use(asyncHandller(CheckAuth.ApiKey));
+
+app.use(helmet());
+app.use(cors());
+app.use(helmet.hidePoweredBy());
 
 router.get("/", async (req, res): Promise<Response<INet>> => {
     const findNet = (await netModel.find({}).lean()) as INet[];

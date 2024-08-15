@@ -3,12 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
+const helmet_1 = __importDefault(require("helmet"));
+const app = (0, express_1.default)();
 const checkAuth_1 = __importDefault(require("../../auth/checkAuth"));
 const router = express_1.default.Router();
 const net_model_1 = __importDefault(require("../../model/net/net.model"));
 const asyncHandller_1 = __importDefault(require("../../utils/asyncHandller"));
 router.use((0, asyncHandller_1.default)(checkAuth_1.default.ApiKey));
+app.use((0, helmet_1.default)());
+app.use((0, cors_1.default)());
+app.use(helmet_1.default.hidePoweredBy());
 router.get("/", async (req, res) => {
     const findNet = (await net_model_1.default.find({}).lean());
     if (findNet.length === 0) {
