@@ -2,10 +2,8 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import helmet from "helmet";
 const app = express();
-import CheckAuth from "~/auth/checkAuth";
 const router = express.Router();
 import netModel, { INet } from "~/model/net/net.model";
-import asyncHandller from "~/utils/asyncHandller";
 
 interface IData {
     netId: number;
@@ -21,7 +19,7 @@ interface CustomRequest extends Request {
     };
 }
 
-router.use(asyncHandller(CheckAuth.ApiKey));
+// router.use(asyncHandller(CheckAuth.ApiKey));
 
 app.use(helmet());
 app.use(cors());
