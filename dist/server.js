@@ -21,6 +21,16 @@ app.use(express_1.default.urlencoded({
 }));
 // DB
 init_mongodb_1.default;
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); // Cho phép mọi nguồn truy cập
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"); // Chỉ định các tiêu đề được phép
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Các phương thức được phép
+    // Xử lý yêu cầu OPTIONS nhanh chóng
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(200); // Gửi phản hồi ngay lập tức cho yêu cầu OPTIONS
+    }
+    next();
+});
 (0, index_routes_1.default)(app);
 app.listen(PORT, () => {
     console.log(`Listen at PORT: http://localhost:${PORT}`);
