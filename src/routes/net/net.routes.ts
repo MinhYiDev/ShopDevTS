@@ -19,8 +19,6 @@ interface CustomRequest extends Request {
     };
 }
 
-// router.use(asyncHandller(CheckAuth.ApiKey));
-
 app.use(helmet());
 app.use(cors());
 app.use(helmet.hidePoweredBy());
@@ -74,12 +72,7 @@ router.put("/net/:netId", async (req: CustomRequest, res: Response): Promise<Res
         content: req.body.content,
     };
 
-    const options = {
-        new: true,
-        upsert: true,
-    };
-
-    const result = await netModel.findOneAndUpdate(filter, update, options);
+    const result = await netModel.findOneAndUpdate(filter, update);
 
     return res.status(200).json(result);
 });
